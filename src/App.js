@@ -1,10 +1,9 @@
-import logo from './logo.svg';
 import './App.css';
-import GetShiftDoneLanding from './pages/landing';
+import Landingpage from './pages/landing';
 
 function App() {
   return (
-    <GetShiftDoneLanding/>
+    <Landingpage/>
   );
 }
 
