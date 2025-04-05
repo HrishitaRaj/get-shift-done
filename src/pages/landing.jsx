@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, Clock, Users, BarChart2, Zap, Award } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const Landingpage= () => {
   const [isVisible, setIsVisible] = useState(false);
   const { scrollY } = useScroll();
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const navigate = useNavigate();
+
   
   
   const headerOpacity = useTransform(scrollY, [0, 100], [1, 0.8]);
   const heroScale = useTransform(scrollY, [0, 300], [1, 0.95]);
-  
+  const handleSignIn = () => {
+    // do sign-in logic here if needed
+    navigate('/Dashboard'); // navigates to dashboard
+  };
   useEffect(() => {
     setIsVisible(true);
   }, []);
@@ -711,6 +717,8 @@ const Landingpage= () => {
                 boxShadow: "0px 0px 8px rgba(120, 80, 220, 0.7)" 
                 }}
                 whileTap={{ scale: 0.98 }}
+                onClick={(e) => {handleSignIn(); e.preventDefault();}}
+
             >
                 Sign in
             </motion.button>

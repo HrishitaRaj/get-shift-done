@@ -1,7 +1,7 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Landingpage from './pages/landing';
-import Home from './pages/Home'; 
+import Dashboard from './pages/Dashboard'; 
 import Scheduling from './pages/scheduling'; 
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Landingpage />} />
-        <Route path="/Home" element={<Home />} />
+        <Route path="/Dashboard" element={<Dashboard />} />
         <Route path="/Scheduling" element={<Scheduling />} />
       </Routes>
     </Router>
