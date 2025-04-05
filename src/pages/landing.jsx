@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Calendar, Clock, Users, BarChart2, Zap, Award } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 
-const GetShiftDoneLanding = () => {
+const Landingpage= () => {
   const [isVisible, setIsVisible] = useState(false);
   const { scrollY } = useScroll();
   
-  // Transform values based on scroll
+  
   const headerOpacity = useTransform(scrollY, [0, 100], [1, 0.8]);
   const heroScale = useTransform(scrollY, [0, 300], [1, 0.95]);
   
@@ -14,7 +14,7 @@ const GetShiftDoneLanding = () => {
     setIsVisible(true);
   }, []);
 
-  // Staggered animation for cards
+  
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -49,10 +49,10 @@ const GetShiftDoneLanding = () => {
 
   return (
     <div className="bg-black text-white min-h-screen overflow-hidden relative">
-      {/* Stars background with motion */}
+    
       <div className="fixed inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-b from-purple-900/10 via-black to-blue-900/10"></div>
-        {/* Animated stars effect */}
+        
         <div className="stars absolute inset-0">
           {[...Array(100)].map((_, i) => {
             const size = Math.random() * 2;
@@ -88,7 +88,7 @@ const GetShiftDoneLanding = () => {
         </div>
       </div>
 
-      {/* Floating planets animation */}
+      
       <div className="hidden lg:block">
         <motion.div 
           className="absolute top-20 right-20 w-24 h-24 rounded-full bg-blue-500/30 blur-md"
@@ -131,7 +131,7 @@ const GetShiftDoneLanding = () => {
         />
       </div>
 
-      {/* Header Navigation with Scroll Effect */}
+      
       <motion.header 
         className="relative z-10 py-4 px-6 md:px-12 flex justify-between items-center backdrop-blur-sm"
         style={{ opacity: headerOpacity }}
@@ -182,7 +182,6 @@ const GetShiftDoneLanding = () => {
         </motion.button>
       </motion.header>
 
-      {/* Hero Section with scroll effects */}
       <motion.section 
         className="relative z-10 pt-20 pb-32 px-6 md:px-12 lg:px-24 flex flex-col lg:flex-row items-center"
         style={{ scale: heroScale }}
@@ -618,7 +617,7 @@ const GetShiftDoneLanding = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.5, duration: 0.8 }}
           >
-            <p>&copy; {new Date().getFullYear()} Get Shift Done. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} HYTECH. All rights reserved.</p>
           </motion.div>
         </div>
       </footer>
@@ -626,4 +625,4 @@ const GetShiftDoneLanding = () => {
   );
 };
 
-export default GetShiftDoneLanding;
+export default Landingpage;
