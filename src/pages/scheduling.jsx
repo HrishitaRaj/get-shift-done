@@ -3,10 +3,10 @@ import { Clock, Star, Users, Award, Calendar, Activity } from 'lucide-react';
 
 // Sample data
 const initialEmployees = [
-  { id: 1, name: "Nova Stellar", skills: ["JavaScript", "React", "UI Design"], availability: [9, 10, 11, 13, 14, 15, 16], energyLevel: 85 },
-  { id: 2, name: "Orion Coder", skills: ["Python", "Data Analysis", "Backend"], availability: [8, 9, 10, 11, 12, 13, 14], energyLevel: 92 },
-  { id: 3, name: "Celeste Dev", skills: ["UI Design", "CSS", "Animation"], availability: [10, 11, 12, 13, 14, 15, 16, 17], energyLevel: 78 },
-  { id: 4, name: "Astro Builder", skills: ["React", "TypeScript", "Backend"], availability: [9, 10, 14, 15, 16, 17], energyLevel: 90 }
+  { id: 1, name: "Sarah Johnson", skills: ["JavaScript", "React", "UI Design"], availability: [9, 10, 11, 13, 14, 15, 16], energyLevel: 85 },
+  { id: 2, name: "Michael Chen", skills: ["Python", "Data Analysis", "Backend"], availability: [8, 9, 10, 11, 12, 13, 14], energyLevel: 92 },
+  { id: 3, name: "Alex Rodriguez", skills: ["UI Design", "CSS", "Animation"], availability: [10, 11, 12, 13, 14, 15, 16, 17], energyLevel: 78 },
+  { id: 4, name: "Emma Thompson", skills: ["React", "TypeScript", "Backend"], availability: [9, 10, 14, 15, 16, 17], energyLevel: 90 }
 ];
 
 const initialTasks = [
@@ -52,7 +52,7 @@ const CosmicTaskAllocation = () => {
     });
     
     tasksCopy.forEach(task => {
-      // Find best cosmic match
+      // Find best cosmic matchhh
       let bestMatch = null;
       let highestScore = -1;
       
@@ -89,13 +89,13 @@ const CosmicTaskAllocation = () => {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500">
-            Cosmic Task Allocation System
+            Task Allocation System
           </h1>
           <button 
             onClick={allocateTasks}
             className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg hover:from-blue-500 hover:to-purple-500 transition-all flex items-center gap-2"
           >
-            <Star size={16} /> Align Cosmic Forces
+            <Star size={16} /> Schedulte Tasks
           </button>
         </div>
         
@@ -105,7 +105,7 @@ const CosmicTaskAllocation = () => {
           <div className="bg-gray-800 bg-opacity-50 backdrop-blur-sm rounded-xl p-4 border border-gray-700">
             <div className="flex items-center gap-2 mb-4">
               <Users className="text-purple-400" />
-              <h2 className="text-xl font-semibold text-purple-400">Stellar Workforce</h2>
+              <h2 className="text-xl font-semibold text-purple-400">Team Memebers</h2>
             </div>
             <div className="space-y-4">
               {employees.map(employee => (
@@ -143,7 +143,7 @@ const CosmicTaskAllocation = () => {
           <div className="bg-gray-800 bg-opacity-50 backdrop-blur-sm rounded-xl p-4 border border-gray-700">
             <div className="flex items-center gap-2 mb-4">
               <Calendar className="text-blue-400" />
-              <h2 className="text-xl font-semibold text-blue-400">Task Nebula</h2>
+              <h2 className="text-xl font-semibold text-blue-400">Tasks</h2>
             </div>
             <div className="space-y-4">
               {tasks.map(task => (
@@ -174,7 +174,7 @@ const CosmicTaskAllocation = () => {
           <div className="bg-gray-800 bg-opacity-50 backdrop-blur-sm rounded-xl p-4 border border-gray-700">
             <div className="flex items-center gap-2 mb-4">
               <Award className="text-pink-400" />
-              <h2 className="text-xl font-semibold text-pink-400">Cosmic Alignments</h2>
+              <h2 className="text-xl font-semibold text-pink-400">Allotment</h2>
             </div>
             {allocations.length > 0 ? (
               <div className="space-y-4">
@@ -211,8 +211,8 @@ const CosmicTaskAllocation = () => {
             ) : (
               <div className="flex flex-col items-center justify-center h-64 text-gray-500">
                 <Star size={48} className="mb-4 opacity-50" />
-                <p className="text-center">The cosmic forces are waiting to be aligned</p>
-                <p className="text-center text-sm mt-2">Click "Align Cosmic Forces" to start the alignment process</p>
+                <p className="text-center">Ready to automate your tasks</p>
+                <p className="text-center text-sm mt-2">Click "Schedule Tasks" to start the task allotment process</p>
               </div>
             )}
           </div>

@@ -162,69 +162,6 @@ const Home = () => {
           </div>
         </motion.div>
 
-        {/* Hero Section */}
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-          className="text-center py-12 px-4"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
-            What if scheduling was automatic, intelligent, and stress-free?
-          </h2>
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-            Introducing "Get Shift Done", the AI-powered workforce planning solution
-          </p>
-        </motion.div>
-
-        {/* Features Section */}
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 px-8 mb-12"
-        >
-          <motion.div 
-            variants={itemVariants}
-            className="bg-gray-900/60 backdrop-blur-md p-8 rounded-xl border border-blue-900/50 hover:border-blue-700/50 transition-all"
-          >
-            <div className="w-16 h-16 rounded-full bg-blue-900/30 flex items-center justify-center mb-4">
-              <Zap className="text-blue-400" size={28} />
-            </div>
-            <h3 className="text-xl font-bold text-blue-300 mb-2">AI-Powered Scheduling</h3>
-            <p className="text-gray-400">
-              Intelligent algorithms create optimal schedules based on your specific requirements
-            </p>
-          </motion.div>
-
-          <motion.div 
-            variants={itemVariants}
-            className="bg-gray-900/60 backdrop-blur-md p-8 rounded-xl border border-purple-900/50 hover:border-purple-700/50 transition-all"
-          >
-            <div className="w-16 h-16 rounded-full bg-purple-900/30 flex items-center justify-center mb-4">
-              <Clock className="text-purple-400" size={28} />
-            </div>
-            <h3 className="text-xl font-bold text-purple-300 mb-2">Real-time Adaptation</h3>
-            <p className="text-gray-400">
-              Instantly adjust to changes, absences, and emergencies without disrupting workflow
-            </p>
-          </motion.div>
-
-          <motion.div 
-            variants={itemVariants}
-            className="bg-gray-900/60 backdrop-blur-md p-8 rounded-xl border border-pink-900/50 hover:border-pink-700/50 transition-all"
-          >
-            <div className="w-16 h-16 rounded-full bg-pink-900/30 flex items-center justify-center mb-4">
-              <Medal className="text-pink-400" size={28} />
-            </div>
-            <h3 className="text-xl font-bold text-pink-300 mb-2">Staff Optimization</h3>
-            <p className="text-gray-400">
-              Balance workloads and maximize productivity across your entire workforce
-            </p>
-          </motion.div>
-        </motion.div>
-
         {/* Main Dashboard Content */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 p-8">
           {/* Sidebar Navigation */}
@@ -481,7 +418,7 @@ const Home = () => {
       {/* Footer */}
       <div className="bg-gray-900/80 backdrop-blur-lg p-6 border-t border-gray-800 mt-12">
         <div className="text-center text-gray-500">
-          <p>© 2025 Get Shift Done. All rights reserved.</p>
+          <p>© 2025 HYTech. All rights reserved.</p>
         </div>
       </div>
     </div>

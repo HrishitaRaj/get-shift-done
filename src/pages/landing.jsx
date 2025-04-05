@@ -261,6 +261,7 @@ const Landingpage= () => {
                 boxShadow: "0px 0px 15px rgba(120, 80, 220, 0.7)"
               }}
               whileTap={{ scale: 0.95 }}
+              onClick={handleSignIn}
             >
               Get Started 
               <motion.svg 
@@ -563,6 +564,7 @@ const Landingpage= () => {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.6, duration: 0.6 }}
+              onClick={handleSignIn}
             >
               Get Started Today
             </motion.button>
