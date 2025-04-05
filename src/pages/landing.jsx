@@ -5,6 +5,7 @@ import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 const Landingpage= () => {
   const [isVisible, setIsVisible] = useState(false);
   const { scrollY } = useScroll();
+  const [showLoginModal, setShowLoginModal] = useState(false);
   
   
   const headerOpacity = useTransform(scrollY, [0, 100], [1, 0.8]);
@@ -168,17 +169,18 @@ const Landingpage= () => {
           ))}
         </nav>
         <motion.button 
-          className="bg-gradient-to-r from-blue-500 to-purple-600 px-4 py-2 rounded-full text-sm font-medium"
-          whileHover={{ 
-            scale: 1.05,
-            boxShadow: "0px 0px 8px rgba(120, 80, 220, 0.7)" 
-          }}
-          whileTap={{ scale: 0.95 }}
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.5 }}
+            className="bg-gradient-to-r from-blue-500 to-purple-600 px-4 py-2 rounded-full text-sm font-medium"
+            whileHover={{ 
+                scale: 1.05,
+                boxShadow: "0px 0px 8px rgba(120, 80, 220, 0.7)" 
+            }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.5 }}
+            onClick={() => setShowLoginModal(true)}
         >
-          Sign in
+            Sign in
         </motion.button>
       </motion.header>
 
@@ -621,6 +623,110 @@ const Landingpage= () => {
           </motion.div>
         </div>
       </footer>
+
+      {/* Login Modal */}
+    <AnimatePresence>
+        {showLoginModal && (
+        <motion.div 
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+        >
+        {/* Backdrop */}
+        <motion.div 
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowLoginModal(false)}
+        />
+      
+        {/* Modal Content */}
+        <motion.div 
+            className="bg-gray-900 border border-purple-500/30 rounded-xl w-full max-w-md p-6 relative z-10"
+            initial={{ scale: 0.9, y: 20, opacity: 0 }}
+            animate={{ scale: 1, y: 0, opacity: 1 }}
+            exit={{ scale: 0.9, y: 20, opacity: 0 }}
+            transition={{ type: "spring", damping: 25 }}
+        >
+            <div className="flex justify-between items-center mb-6">
+            <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">
+                Welcome Back
+            </h3>
+            <motion.button
+                className="text-gray-400 hover:text-white"
+                onClick={() => setShowLoginModal(false)}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </motion.button>
+            </div>
+        
+            <form className="space-y-4">
+            <div>
+                <label className="block text-gray-300 mb-1 text-sm">Email</label>
+                <motion.input 
+                type="email" 
+                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                whileFocus={{ scale: 1.01 }}
+                placeholder="your@email.com"
+                />
+            </div>
+            
+            <div>
+                <label className="block text-gray-300 mb-1 text-sm">Password</label>
+                <motion.input 
+                type="password" 
+                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                whileFocus={{ scale: 1.01 }}
+                placeholder="••••••••"
+                />
+            </div>
+          
+            <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                <input 
+                    id="remember-me" 
+                    type="checkbox" 
+                    className="h-4 w-4 bg-gray-800 border-gray-700 rounded text-purple-600 focus:ring-purple-500"
+                />
+                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-300">
+                    Remember me
+                </label>
+                </div>
+                <a href="#" className="text-sm text-purple-400 hover:text-purple-300">
+                Forgot password?
+                </a>
+            </div>
+          
+            <motion.button
+                type="submit"
+                className="w-full bg-gradient-to-r from-blue-500 to-purple-600 py-2 rounded-lg font-medium mt-2"
+                whileHover={{ 
+                scale: 1.02,
+                boxShadow: "0px 0px 8px rgba(120, 80, 220, 0.7)" 
+                }}
+                whileTap={{ scale: 0.98 }}
+            >
+                Sign in
+            </motion.button>
+            </form>
+        
+            <div className="mt-6 text-center text-sm text-gray-400">
+            Don't have an account?{" "}
+            <a href="#" className="text-purple-400 hover:text-purple-300 font-medium">
+                Sign up
+            </a>
+            </div>
+        </motion.div>
+        </motion.div>
+    )}
+    </AnimatePresence>
+
     </div>
   );
 };
