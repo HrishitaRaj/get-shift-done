@@ -36,7 +36,7 @@ const itemVariants = {
   }
 };
 
-const CosmicWorkforceDashboard = () => {
+const Home = () => {
   const [selectedView, setSelectedView] = useState('leaderboard');
   const [userData, setUserData] = useState({
     name: "Admin User",
@@ -488,4 +488,4 @@ const CosmicWorkforceDashboard = () => {
   );
 };
 
-export default home;
+export default Home;
