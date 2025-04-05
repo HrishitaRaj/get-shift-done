@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
+
 import { 
   Trophy, 
   Star, 
@@ -38,6 +40,7 @@ const itemVariants = {
 
 const Home = () => {
   const [selectedView, setSelectedView] = useState('leaderboard');
+  const navigate = useNavigate();
   const [userData, setUserData] = useState({
     name: "Admin User",
     xp: 5230,
@@ -203,6 +206,7 @@ const Home = () => {
             </button>
             <button 
               className="w-full flex items-center p-3 bg-gray-900/50 text-gray-300 hover:bg-gray-800/50 rounded-lg"
+              onClick={() => navigate('/scheduling')}
             >
               <Users className="mr-3" /> Team Stats
             </button>
