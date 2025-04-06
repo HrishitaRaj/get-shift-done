@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Clock, Star, Users, Award, Calendar, Activity, Filter, RefreshCcw, 
-         Bell, Zap, TrendingUp, BarChart2, Clipboard, Layers } from 'lucide-react';
+import { Clock, Star, Users, Award, Calendar, Activity, Filter, RefreshCcw, Bell, Zap, TrendingUp, BarChart2, Clipboard, Layers, Upload  } from 'lucide-react';
 
 // Sample data
 const initialEmployees = [
@@ -875,5 +874,3 @@ const CosmicTaskAllocation = () => {
 };
 
 export default CosmicTaskAllocation;
-
-

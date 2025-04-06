@@ -11,10 +11,13 @@ import {
   Award, 
   Target, 
   Rocket,
+  Footprints,
+  Check,
   Clock,
   BarChart,
   Calendar,
-  Medal
+  Medal,
+  Thermometer
 } from 'lucide-react';
 
 // Animation variants
@@ -40,12 +43,37 @@ const itemVariants = {
 
 const Home = () => {
   const [selectedView, setSelectedView] = useState('leaderboard');
+
+  const [leaveReason, setLeaveReason] = useState('');
+  const [leaveDays, setLeaveDays] = useState('');
+  const [leaveFromDate, setLeaveFromDate] = useState('');
+  const [leaveToDate, setLeaveToDate] = useState('');
+  const [userName, setUserName] = useState('');
+  const [jobRole, setJobRole] = useState('');
+  const [leaveSubmitted, setLeaveSubmitted] = useState(false);
+  
   const navigate = useNavigate();
+
   const [userData, setUserData] = useState({
     name: "Admin User",
     xp: 5230,
     level: 12
   });
+
+  const handleLeaveSubmit = (e) => {
+    e.preventDefault();
+    setLeaveSubmitted(true);
+    // In a real app, you would send this data to your backend
+  };
+
+  const calculateDays = (fromDate, toDate) => {
+    if (!fromDate || !toDate) return '';
+    const start = new Date(fromDate);
+    const end = new Date(toDate);
+    const diffTime = Math.abs(end - start);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+    return diffDays.toString();
+  };
 
   // Sample data - in a real app this would come from the backend
   const employeeLeaderboard = [
@@ -211,9 +239,14 @@ const Home = () => {
               <Users className="mr-3" /> Team Stats
             </button>
             <button 
-              className="w-full flex items-center p-3 bg-gray-900/50 text-gray-300 hover:bg-gray-800/50 rounded-lg"
+              onClick={() => setSelectedView('applyLeave')}
+              className={`w-full flex items-center p-3 rounded-lg transition-colors ${
+                selectedView === 'applyLeave' 
+                  ? 'bg-gradient-to-r from-blue-900/80 to-purple-900/80 text-white' 
+                  : 'bg-gray-900/50 text-gray-300 hover:bg-gray-800/50'
+              }`}
             >
-              <Award className="mr-3" /> Achievements
+              <Thermometer className="mr-3" /> Apply for Leave
             </button>
             <button 
               className="w-full flex items-center p-3 bg-gray-900/50 text-gray-300 hover:bg-gray-800/50 rounded-lg"
@@ -415,6 +448,178 @@ const Home = () => {
                 </div>
               </motion.div>
             )}
+
+            {/* Apply for Leave Content */}
+{selectedView === 'applyLeave' && (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    transition={{ duration: 0.3 }}
+  >
+    <h2 className="text-2xl font-bold mb-6 flex items-center text-blue-300">
+      <Thermometer className="mr-3 text-blue-400" /> Apply for Leave
+    </h2>
+    
+    {!leaveSubmitted ? (
+      <motion.form 
+        onSubmit={handleLeaveSubmit}
+        className="space-y-6 max-w-2xl mx-auto"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <label htmlFor="userName" className="block text-gray-300 font-medium">Your Name:</label>
+            <input
+              type="text"
+              id="userName"
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+              className="w-full p-3 rounded-lg bg-gray-800/70 text-gray-200 border border-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+              required
+              placeholder="Enter your full name"
+            />
+          </div>
+          
+          <div className="space-y-2">
+            <label htmlFor="jobRole" className="block text-gray-300 font-medium">Job Role:</label>
+            <input
+              type="text"
+              id="jobRole"
+              value={jobRole}
+              onChange={(e) => setJobRole(e.target.value)}
+              className="w-full p-3 rounded-lg bg-gray-800/70 text-gray-200 border border-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+              required
+              placeholder="Enter your job role"
+            />
+          </div>
+        </motion.div>
+
+        <motion.div variants={itemVariants} className="space-y-2">
+          <label htmlFor="reason" className="block text-gray-300 font-medium">Reason for Leave:</label>
+          <textarea
+            id="reason"
+            value={leaveReason}
+            onChange={(e) => setLeaveReason(e.target.value)}
+            className="w-full p-3 rounded-lg bg-gray-800/70 text-gray-200 border border-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+            rows="4"
+            required
+            placeholder="Please provide details about your leave request..."
+          />
+        </motion.div>
+        
+        <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <label htmlFor="fromDate" className="block text-gray-300 font-medium">From Date:</label>
+            <input
+              type="date"
+              id="fromDate"
+              value={leaveFromDate}
+              onChange={(e) => {
+                setLeaveFromDate(e.target.value);
+                if (leaveToDate) {
+                  setLeaveDays(calculateDays(e.target.value, leaveToDate));
+                }
+              }}
+              className="w-full p-3 rounded-lg bg-gray-800/70 text-gray-200 border border-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+              required
+            />
+          </div>
+          
+          <div className="space-y-2">
+            <label htmlFor="toDate" className="block text-gray-300 font-medium">To Date:</label>
+            <input
+              type="date"
+              id="toDate"
+              value={leaveToDate}
+              min={leaveFromDate}
+              onChange={(e) => {
+                setLeaveToDate(e.target.value);
+                if (leaveFromDate) {
+                  setLeaveDays(calculateDays(leaveFromDate, e.target.value));
+                }
+              }}
+              className="w-full p-3 rounded-lg bg-gray-800/70 text-gray-200 border border-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+              required
+            />
+          </div>
+        </motion.div>
+        
+        <motion.div variants={itemVariants} className="space-y-2">
+          <label htmlFor="days" className="block text-gray-300 font-medium">Number of Days:</label>
+          <input
+            type="number"
+            id="days"
+            value={leaveDays}
+            onChange={(e) => setLeaveDays(e.target.value)}
+            className="w-full p-3 rounded-lg bg-gray-800/70 text-gray-200 border border-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+            min="1"
+            readOnly
+            required
+          />
+        </motion.div>
+        
+        <motion.button
+          variants={itemVariants}
+          type="submit"
+          className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all shadow-lg"
+        >
+          Submit Leave Request
+        </motion.button>
+      </motion.form>
+    ) : (
+      <motion.div 
+        className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-8 border border-gray-700 text-center max-w-2xl mx-auto"
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-900/30 mb-4">
+          <Check className="text-green-400" size={32} />
+        </div>
+        <h3 className="text-xl font-bold text-green-300 mb-2">Leave Request Submitted</h3>
+        <p className="text-gray-400 mb-6">Your leave request has been successfully submitted for approval.</p>
+        
+        <div className="bg-gray-900/50 rounded-lg p-4 text-left mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <p className="text-gray-500 text-sm">Reason for Leave</p>
+              <p className="text-gray-300">{leaveReason}</p>
+            </div>
+            <div>
+              <p className="text-gray-500 text-sm">Number of Days</p>
+              <p className="text-gray-300">{leaveDays}</p>
+            </div>
+            <div>
+              <p className="text-gray-500 text-sm">From Date</p>
+              <p className="text-gray-300">{leaveFromDate}</p>
+            </div>
+            <div>
+              <p className="text-gray-500 text-sm">To Date</p>
+              <p className="text-gray-300">{leaveToDate}</p>
+            </div>
+          </div>
+        </div>
+        
+        <button
+          onClick={() => {
+            setLeaveSubmitted(false);
+            setLeaveReason('');
+            setLeaveDays('');
+            setLeaveFromDate('');
+            setLeaveToDate('');
+          }}
+          className="px-4 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600 transition-colors"
+        >
+          Submit Another Request
+        </button>
+      </motion.div>
+    )}
+  </motion.div>
+)}
+
           </motion.div>
         </div>
       </div>
