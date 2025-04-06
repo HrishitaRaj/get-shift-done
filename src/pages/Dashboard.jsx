@@ -17,7 +17,9 @@ import {
   BarChart,
   Calendar,
   Medal,
-  Thermometer
+  Thermometer,
+  List,
+  ClipboardList
 } from 'lucide-react';
 
 // Animation variants
@@ -41,7 +43,7 @@ const itemVariants = {
   }
 };
 
-const Home = () => {
+const Dashboard = () => {
   const [selectedView, setSelectedView] = useState('leaderboard');
 
   const [leaveReason, setLeaveReason] = useState('');
@@ -51,6 +53,25 @@ const Home = () => {
   const [userName, setUserName] = useState('');
   const [jobRole, setJobRole] = useState('');
   const [leaveSubmitted, setLeaveSubmitted] = useState(false);
+  
+  // New state for tasks and team members
+  const [tasks, setTasks] = useState([
+    { id: 1, name: 'Finalize Q4 reports', selected: false, assignedTo: '' },
+    { id: 2, name: 'Weekly team sync', selected: false, assignedTo: '' },
+    { id: 3, name: 'Client presentation', selected: false, assignedTo: '' },
+    { id: 4, name: 'Code review for Project X', selected: false, assignedTo: '' },
+    { id: 5, name: 'Update documentation', selected: false, assignedTo: '' }
+  ]);
+  
+  const [teamMembers] = useState([
+    { id: 1, name: 'Sarah Johnson' },
+    { id: 2, name: 'Michael Chen' },
+    { id: 3, name: 'Alex Rodriguez' },
+    { id: 4, name: 'Emma Thompson' }
+  ]);
+  
+  const [showTaskDistribution, setShowTaskDistribution] = useState(false);
+  const [distributableTasks, setDistributableTasks] = useState([]);
   
   const navigate = useNavigate();
 
@@ -62,8 +83,43 @@ const Home = () => {
 
   const handleLeaveSubmit = (e) => {
     e.preventDefault();
-    setLeaveSubmitted(true);
+    
+    // Filter selected tasks
+    const selectedTasks = tasks.filter(task => task.selected);
+    if (selectedTasks.length > 0) {
+      setDistributableTasks(selectedTasks);
+      setShowTaskDistribution(true);
+    } else {
+      completeLeaveSubmission();
+    }
+  };
+  
+  const handleTaskSelection = (taskId) => {
+    setTasks(tasks.map(task => 
+      task.id === taskId ? { ...task, selected: !task.selected } : task
+    ));
+  };
+  
+  const handleTaskAssignment = (taskId, memberId) => {
+    setDistributableTasks(distributableTasks.map(task => 
+      task.id === taskId ? { ...task, assignedTo: memberId } : task
+    ));
+  };
+  
+  const completeTaskDistribution = () => {
+    // In a real app, you would update the tasks in your backend
+    setTasks(tasks.map(task => {
+      const updatedTask = distributableTasks.find(t => t.id === task.id);
+      return updatedTask || task;
+    }));
+    
+    completeLeaveSubmission();
+  };
+  
+  const completeLeaveSubmission = () => {
     // In a real app, you would send this data to your backend
+    setLeaveSubmitted(true);
+    setShowTaskDistribution(false);
   };
 
   const calculateDays = (fromDate, toDate) => {
@@ -450,188 +506,283 @@ const Home = () => {
             )}
 
             {/* Apply for Leave Content */}
-{selectedView === 'applyLeave' && (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    transition={{ duration: 0.3 }}
-  >
-    <h2 className="text-2xl font-bold mb-6 flex items-center text-blue-300">
-      <Thermometer className="mr-3 text-blue-400" /> Apply for Leave
-    </h2>
-    
-    {!leaveSubmitted ? (
-      <motion.form 
-        onSubmit={handleLeaveSubmit}
-        className="space-y-6 max-w-2xl mx-auto"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <label htmlFor="userName" className="block text-gray-300 font-medium">Your Name:</label>
-            <input
-              type="text"
-              id="userName"
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
-              className="w-full p-3 rounded-lg bg-gray-800/70 text-gray-200 border border-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
-              required
-              placeholder="Enter your full name"
-            />
-          </div>
-          
-          <div className="space-y-2">
-            <label htmlFor="jobRole" className="block text-gray-300 font-medium">Job Role:</label>
-            <input
-              type="text"
-              id="jobRole"
-              value={jobRole}
-              onChange={(e) => setJobRole(e.target.value)}
-              className="w-full p-3 rounded-lg bg-gray-800/70 text-gray-200 border border-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
-              required
-              placeholder="Enter your job role"
-            />
-          </div>
-        </motion.div>
+            {selectedView === 'applyLeave' && !showTaskDistribution && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <h2 className="text-2xl font-bold mb-6 flex items-center text-blue-300">
+                  <Thermometer className="mr-3 text-blue-400" /> Apply for Leave
+                </h2>
+                
+                {!leaveSubmitted ? (
+                  <motion.form 
+                    onSubmit={handleLeaveSubmit}
+                    className="space-y-6 max-w-2xl mx-auto"
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
+                  >
+                    <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <label htmlFor="userName" className="block text-gray-300 font-medium">Your Name:</label>
+                        <input
+                          type="text"
+                          id="userName"
+                          value={userName}
+                          onChange={(e) => setUserName(e.target.value)}
+                          className="w-full p-3 rounded-lg bg-gray-800/70 text-gray-200 border border-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                          required
+                          placeholder="Enter your full name"
+                        />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <label htmlFor="jobRole" className="block text-gray-300 font-medium">Job Role:</label>
+                        <input
+                          type="text"
+                          id="jobRole"
+                          value={jobRole}
+                          onChange={(e) => setJobRole(e.target.value)}
+                          className="w-full p-3 rounded-lg bg-gray-800/70 text-gray-200 border border-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                          required
+                          placeholder="Enter your job role"
+                        />
+                      </div>
+                    </motion.div>
 
-        <motion.div variants={itemVariants} className="space-y-2">
-          <label htmlFor="reason" className="block text-gray-300 font-medium">Reason for Leave:</label>
-          <textarea
-            id="reason"
-            value={leaveReason}
-            onChange={(e) => setLeaveReason(e.target.value)}
-            className="w-full p-3 rounded-lg bg-gray-800/70 text-gray-200 border border-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
-            rows="4"
-            required
-            placeholder="Please provide details about your leave request..."
-          />
-        </motion.div>
-        
-        <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <label htmlFor="fromDate" className="block text-gray-300 font-medium">From Date:</label>
-            <input
-              type="date"
-              id="fromDate"
-              value={leaveFromDate}
-              onChange={(e) => {
-                setLeaveFromDate(e.target.value);
-                if (leaveToDate) {
-                  setLeaveDays(calculateDays(e.target.value, leaveToDate));
-                }
-              }}
-              className="w-full p-3 rounded-lg bg-gray-800/70 text-gray-200 border border-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
-              required
-            />
-          </div>
-          
-          <div className="space-y-2">
-            <label htmlFor="toDate" className="block text-gray-300 font-medium">To Date:</label>
-            <input
-              type="date"
-              id="toDate"
-              value={leaveToDate}
-              min={leaveFromDate}
-              onChange={(e) => {
-                setLeaveToDate(e.target.value);
-                if (leaveFromDate) {
-                  setLeaveDays(calculateDays(leaveFromDate, e.target.value));
-                }
-              }}
-              className="w-full p-3 rounded-lg bg-gray-800/70 text-gray-200 border border-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
-              required
-            />
-          </div>
-        </motion.div>
-        
-        <motion.div variants={itemVariants} className="space-y-2">
-          <label htmlFor="days" className="block text-gray-300 font-medium">Number of Days:</label>
-          <input
-            type="number"
-            id="days"
-            value={leaveDays}
-            onChange={(e) => setLeaveDays(e.target.value)}
-            className="w-full p-3 rounded-lg bg-gray-800/70 text-gray-200 border border-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
-            min="1"
-            readOnly
-            required
-          />
-        </motion.div>
-        
-        <motion.button
-          variants={itemVariants}
-          type="submit"
-          className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all shadow-lg"
-        >
-          Submit Leave Request
-        </motion.button>
-      </motion.form>
-    ) : (
-      <motion.div 
-        className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-8 border border-gray-700 text-center max-w-2xl mx-auto"
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      >
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-900/30 mb-4">
-          <Check className="text-green-400" size={32} />
-        </div>
-        <h3 className="text-xl font-bold text-green-300 mb-2">Leave Request Submitted</h3>
-        <p className="text-gray-400 mb-6">Your leave request has been successfully submitted for approval.</p>
-        
-        <div className="bg-gray-900/50 rounded-lg p-4 text-left mb-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <p className="text-gray-500 text-sm">Reason for Leave</p>
-              <p className="text-gray-300">{leaveReason}</p>
-            </div>
-            <div>
-              <p className="text-gray-500 text-sm">Number of Days</p>
-              <p className="text-gray-300">{leaveDays}</p>
-            </div>
-            <div>
-              <p className="text-gray-500 text-sm">From Date</p>
-              <p className="text-gray-300">{leaveFromDate}</p>
-            </div>
-            <div>
-              <p className="text-gray-500 text-sm">To Date</p>
-              <p className="text-gray-300">{leaveToDate}</p>
-            </div>
-          </div>
-        </div>
-        
-        <button
-          onClick={() => {
-            setLeaveSubmitted(false);
-            setLeaveReason('');
-            setLeaveDays('');
-            setLeaveFromDate('');
-            setLeaveToDate('');
-          }}
-          className="px-4 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600 transition-colors"
-        >
-          Submit Another Request
-        </button>
-      </motion.div>
-    )}
-  </motion.div>
-)}
+                    <motion.div variants={itemVariants} className="space-y-2">
+                      <label htmlFor="reason" className="block text-gray-300 font-medium">Reason for Leave:</label>
+                      <textarea
+                        id="reason"
+                        value={leaveReason}
+                        onChange={(e) => setLeaveReason(e.target.value)}
+                        className="w-full p-3 rounded-lg bg-gray-800/70 text-gray-200 border border-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                        rows="4"
+                        required
+                        placeholder="Please provide details about your leave request..."
+                      />
+                    </motion.div>
+                    
+                    <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <label htmlFor="fromDate" className="block text-gray-300 font-medium">From Date:</label>
+                        <input
+                          type="date"
+                          id="fromDate"
+                          value={leaveFromDate}
+                          onChange={(e) => {
+                            setLeaveFromDate(e.target.value);
+                            if (leaveToDate) {
+                              setLeaveDays(calculateDays(e.target.value, leaveToDate));
+                            }
+                          }}
+                          className="w-full p-3 rounded-lg bg-gray-800/70 text-gray-200 border border-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                          required
+                        />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <label htmlFor="toDate" className="block text-gray-300 font-medium">To Date:</label>
+                        <input
+                          type="date"
+                          id="toDate"
+                          value={leaveToDate}
+                          min={leaveFromDate}
+                          onChange={(e) => {
+                            setLeaveToDate(e.target.value);
+                            if (leaveFromDate) {
+                              setLeaveDays(calculateDays(leaveFromDate, e.target.value));
+                            }
+                          }}
+                          className="w-full p-3 rounded-lg bg-gray-800/70 text-gray-200 border border-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                          required
+                        />
+                      </div>
+                    </motion.div>
+                    
+                    <motion.div variants={itemVariants} className="space-y-2">
+                      <label htmlFor="days" className="block text-gray-300 font-medium">Number of Days:</label>
+                      <input
+                        type="number"
+                        id="days"
+                        value={leaveDays}
+                        onChange={(e) => setLeaveDays(e.target.value)}
+                        className="w-full p-3 rounded-lg bg-gray-800/70 text-gray-200 border border-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                        min="1"
+                        readOnly
+                        required
+                      />
+                    </motion.div>
 
+                    {/* Task section - new addition */}
+                    <motion.div variants={itemVariants} className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <label className="block text-gray-300 font-medium">Your Current Tasks:</label>
+                        <span className="text-sm text-gray-400">Select tasks that need to be reassigned</span>
+                      </div>
+                      
+                      <div className="bg-gray-800/50 rounded-lg border border-gray-700 p-1">
+                        {tasks.map((task) => (
+                          <div 
+                            key={task.id}
+                            className={`p-3 mb-1 rounded-lg flex items-center ${
+                              task.selected ? 'bg-blue-900/30 border border-blue-700' : 'bg-gray-800/70 hover:bg-gray-800 border border-transparent'
+                            }`}
+                            onClick={() => handleTaskSelection(task.id)}
+                          >
+                            <div className={`w-5 h-5 rounded mr-3 flex items-center justify-center ${
+                              task.selected ? 'bg-blue-500 text-white' : 'bg-gray-700'
+                            }`}>
+                              {task.selected && <Check size={16} />}
+                            </div>
+                            <div>
+                              <p className="font-medium">{task.name}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </motion.div>
+                    
+                    <motion.button
+  variants={itemVariants}
+  type="submit"
+  className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:from-blue-600 hover:to-purple-700 transition-colors flex items-center justify-center w-full"
+>
+  <Footprints className="mr-2" /> Submit Leave Request
+</motion.button>
+                  </motion.form>
+                ) : (
+                  <motion.div 
+                    className="bg-gray-800/50 rounded-xl p-6 border border-green-700 text-center"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Check className="text-green-400" size={32} />
+                    </div>
+                    <h3 className="text-xl font-bold text-green-400 mb-2">Leave Request Submitted!</h3>
+                    <p className="text-gray-300 max-w-md mx-auto mb-4">
+                      Your leave request has been submitted successfully. You will receive a notification once it's approved.
+                    </p>
+                    <div className="bg-gray-900/50 rounded-lg p-4 max-w-md mx-auto">
+                      <div className="grid grid-cols-2 gap-y-2 text-left">
+                        <div className="text-gray-400">Name:</div>
+                        <div>{userName}</div>
+                        <div className="text-gray-400">Role:</div>
+                        <div>{jobRole}</div>
+                        <div className="text-gray-400">Duration:</div>
+                        <div>{leaveDays} days</div>
+                        <div className="text-gray-400">From:</div>
+                        <div>{new Date(leaveFromDate).toLocaleDateString()}</div>
+                        <div className="text-gray-400">To:</div>
+                        <div>{new Date(leaveToDate).toLocaleDateString()}</div>
+                      </div>
+                    </div>
+                    <button 
+                      onClick={() => {
+                        setLeaveSubmitted(false);
+                        setLeaveReason('');
+                        setLeaveDays('');
+                        setLeaveFromDate('');
+                        setLeaveToDate('');
+                        setUserName('');
+                        setJobRole('');
+                      }}
+                      className="mt-6 px-6 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-white flex items-center mx-auto"
+                    >
+                      <Clock className="mr-2" size={16} /> Submit Another Request
+                    </button>
+                  </motion.div>
+                )}
+              </motion.div>
+            )}
+            
+            {/* Task Distribution Modal */}
+            {showTaskDistribution && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="bg-gray-900/95 backdrop-blur-lg rounded-xl border border-blue-900 p-6"
+              >
+                <h2 className="text-2xl font-bold mb-6 flex items-center text-blue-300">
+                  <ClipboardList className="mr-3 text-blue-400" /> Task Distribution
+                </h2>
+                
+                <p className="text-gray-300 mb-4">
+                  Please assign your selected tasks to team members during your absence:
+                </p>
+                
+                <div className="space-y-4 mb-6">
+                  {distributableTasks.map((task) => (
+                    <div key={task.id} className="bg-gray-800/70 rounded-lg p-4 border border-gray-700">
+                      <div className="flex justify-between items-center mb-3">
+                        <h3 className="font-medium">{task.name}</h3>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {teamMembers.map((member) => (
+                          <button
+                            key={member.id}
+                            onClick={() => handleTaskAssignment(task.id, member.id)}
+                            className={`px-3 py-1 rounded-full text-sm ${
+                              task.assignedTo === member.id
+                                ? 'bg-blue-500 text-white'
+                                : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                            }`}
+                          >
+                            {member.name}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="flex justify-end space-x-3">
+                  <button
+                    onClick={() => setShowTaskDistribution(false)}
+                    className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg"
+                  >
+                    Back
+                  </button>
+                  <button
+                    onClick={completeTaskDistribution}
+                    className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-lg flex items-center"
+                  >
+                    <Check className="mr-2" size={16} /> Complete
+                  </button>
+                </div>
+              </motion.div>
+            )}
+            
           </motion.div>
         </div>
-      </div>
-
-      {/* Footer */}
-      <div className="bg-gray-900/80 backdrop-blur-lg p-6 border-t border-gray-800 mt-12">
-        <div className="text-center text-gray-500">
-          <p>© 2025 HYTech. All rights reserved.</p>
-        </div>
+        
+        {/* Footer */}
+        <motion.div
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+          className="bg-gray-900/80 backdrop-blur-lg border-t border-gray-800 p-6 text-center"
+        >
+          <p className="text-gray-400">
+            &copy; {new Date().getFullYear()} Get Shift Done - AI-powered workforce planning
+          </p>
+          <div className="flex justify-center space-x-6 mt-4">
+            <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">Help</a>
+            <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">Privacy Policy</a>
+            <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">Terms of Service</a>
+            <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">Contact</a>
+          </div>
+        </motion.div>
       </div>
     </div>
   );
 };
 
-export default Home;
+export default Dashboard;
