@@ -18,6 +18,7 @@ const initialTasks = [
 ];
 
 const priorityOrder = { "Critical": 3, "High": 2, "Medium": 1, "Low": 0 };
+const allSkills = ["JavaScript", "React", "UI Design", "CSS", "TypeScript", "Python", "Data Analysis", "Backend", "Animation"];
 
 const CosmicTaskAllocation = () => {
   const [employees, setEmployees] = useState(initialEmployees);
@@ -30,7 +31,16 @@ const CosmicTaskAllocation = () => {
   const [notificationMessage, setNotificationMessage] = useState("");
   const [activeTab, setActiveTab] = useState("tasks");
   const [showAnalytics, setShowAnalytics] = useState(false);
-  
+  const [showAddTaskModal, setShowAddTaskModal] = useState(false);
+  const [newTask, setNewTask] = useState({
+    name: "",
+    skills: [],
+    duration: 2,
+    priority: "Medium",
+    deadline: new Date(Date.now() + 7 * 24 * 3600000).toISOString().split('T')[0],
+    status: "Pending"
+  });
+
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -140,18 +150,61 @@ const CosmicTaskAllocation = () => {
   };
   
   const addNewTask = () => {
-    const newTask = {
+    setShowAddTaskModal(true);
+  };
+
+  const handleNewTaskChange = (e) => {
+    const { name, value } = e.target;
+    setNewTask({
+      ...newTask,
+      [name]: value
+    });
+  };
+
+  const handleSkillToggle = (skill) => {
+    if (newTask.skills.includes(skill)) {
+      setNewTask({
+        ...newTask,
+        skills: newTask.skills.filter(s => s !== skill)
+      });
+    } else {
+      setNewTask({
+        ...newTask,
+        skills: [...newTask.skills, skill]
+      });
+    }
+  };
+
+  const handleAddTask = () => {
+    if (!newTask.name.trim()) {
+      showNotificationMessage("Task name is required!");
+      return;
+    }
+
+    if (newTask.skills.length === 0) {
+      showNotificationMessage("Please select at least one skill!");
+      return;
+    }
+
+    const newTaskWithId = {
+      ...newTask,
       id: tasks.length > 0 ? Math.max(...tasks.map(t => t.id)) + 1 : 1,
-      name: "New Task",
-      skills: ["JavaScript"],
+      duration: parseInt(newTask.duration) || 2
+    };
+
+    setTasks([...tasks, newTaskWithId]);
+    setShowAddTaskModal(false);
+    showNotificationMessage("New task added successfully!");
+    
+    // Reset form
+    setNewTask({
+      name: "",
+      skills: [],
       duration: 2,
       priority: "Medium",
       deadline: new Date(Date.now() + 7 * 24 * 3600000).toISOString().split('T')[0],
       status: "Pending"
-    };
-    
-    setTasks([...tasks, newTask]);
-    showNotificationMessage("New task added!");
+    });
   };
   
   const markTaskComplete = (taskId) => {
@@ -868,7 +921,128 @@ const CosmicTaskAllocation = () => {
             </motion.div>
           </motion.div>
         )}
+        
       </div>
+      {/* Add Task Modal */}
+{showAddTaskModal && (
+  <motion.div 
+    className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 backdrop-blur-sm"
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+  >
+    <motion.div 
+      className="bg-gray-800 rounded-xl border border-gray-700 p-6 max-w-lg w-full"
+      initial={{ scale: 0.9, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      exit={{ scale: 0.9, opacity: 0 }}
+      transition={{ type: "spring", stiffness: 500, damping: 30 }}
+    >
+      <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
+        <Clipboard size={20} className="text-green-400" />
+        <span>Add New Task</span>
+      </h3>
+      
+      <div className="space-y-4">
+        <div>
+          <label className="block text-sm text-gray-400 mb-1">Task Name</label>
+          <input 
+            type="text" 
+            name="name"
+            value={newTask.name}
+            onChange={handleNewTaskChange}
+            className="w-full bg-gray-700 border border-gray-600 rounded-lg p-2 text-white"
+            placeholder="Enter task name"
+          />
+        </div>
+        
+        <div>
+          <label className="block text-sm text-gray-400 mb-1">Required Skills</label>
+          <div className="flex flex-wrap gap-2 mt-2">
+            {allSkills.map(skill => (
+              <motion.button
+                key={skill}
+                type="button"
+                onClick={() => handleSkillToggle(skill)}
+                className={`px-3 py-1 text-sm rounded-full border ${
+                  newTask.skills.includes(skill) 
+                    ? 'bg-blue-600 text-white border-blue-500' 
+                    : 'bg-gray-700 text-gray-300 border-gray-600'
+                }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {skill}
+              </motion.button>
+            ))}
+          </div>
+        </div>
+        
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm text-gray-400 mb-1">Duration (hours)</label>
+            <input 
+              type="number" 
+              name="duration"
+              min="1"
+              max="24"
+              value={newTask.duration}
+              onChange={handleNewTaskChange}
+              className="w-full bg-gray-700 border border-gray-600 rounded-lg p-2 text-white"
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm text-gray-400 mb-1">Priority</label>
+            <select 
+              name="priority"
+              value={newTask.priority}
+              onChange={handleNewTaskChange}
+              className="w-full bg-gray-700 border border-gray-600 rounded-lg p-2 text-white"
+            >
+              <option value="Critical">Critical</option>
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
+            </select>
+          </div>
+        </div>
+        
+        <div>
+          <label className="block text-sm text-gray-400 mb-1">Deadline</label>
+          <input 
+            type="date" 
+            name="deadline"
+            value={newTask.deadline}
+            onChange={handleNewTaskChange}
+            className="w-full bg-gray-700 border border-gray-600 rounded-lg p-2 text-white"
+          />
+        </div>
+      </div>
+      
+      <div className="flex gap-3 mt-6">
+        <motion.button
+          onClick={() => setShowAddTaskModal(false)}
+          className="flex-1 py-2 px-4 bg-gray-700 rounded-lg hover:bg-gray-600 transition-all"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          Cancel
+        </motion.button>
+        
+        <motion.button
+          onClick={handleAddTask}
+          className="flex-1 py-2 px-4 bg-gradient-to-r from-green-600 to-teal-600 rounded-lg hover:from-green-500 hover:to-teal-500 transition-all flex items-center justify-center gap-2"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <Upload size={16} />
+          <span>Add Task</span>
+        </motion.button>
+      </div>
+    </motion.div>
+  </motion.div>
+)}
     </div>
   );
 };
