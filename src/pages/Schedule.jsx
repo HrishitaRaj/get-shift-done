@@ -174,7 +174,7 @@ const Schedule = () => {
             className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-5 border border-gray-700 shadow-md"
             whileHover={{ scale: 1.03 }}
           >
-            {/* Header with progress */}
+            {/* Header with progress bar */}
             <div className="mb-4 flex flex-col gap-2">
               <h3 className="text-xl font-semibold text-pink-400">{member.name}</h3>
               <div className="w-full">
