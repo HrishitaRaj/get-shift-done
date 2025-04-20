@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import Schedule from './Schedule';
 
 import { 
   Trophy, 
@@ -45,6 +46,7 @@ const itemVariants = {
 
 const Dashboard = () => {
   const [selectedView, setSelectedView] = useState('leaderboard');
+  
 
   const [leaveReason, setLeaveReason] = useState('');
   const [leaveDays, setLeaveDays] = useState('');
@@ -305,7 +307,7 @@ const Dashboard = () => {
               <Thermometer className="mr-3" /> Apply for Leave
             </button>
             <button 
-              className="w-full flex items-center p-3 bg-gray-900/50 text-gray-300 hover:bg-gray-800/50 rounded-lg"
+              className="w-full flex items-center p-3 bg-gray-900/50 text-gray-300 hover:bg-gray-800/50 rounded-lg" onClick={() => setSelectedView('Schedule')}
             >
               <Calendar className="mr-3" /> Schedule
             </button>
@@ -383,7 +385,7 @@ const Dashboard = () => {
               </motion.div>
             )}
 
-            {/* Team Challenges Content */}
+            {/* Team Active hi Challenges Content */}
             {selectedView === 'challenges' && (
               <motion.div
                 initial={{ opacity: 0 }}
@@ -504,6 +506,8 @@ const Dashboard = () => {
                 </div>
               </motion.div>
             )}
+
+            {selectedView === 'Schedule' && <Schedule />}
 
             {/* Apply for Leave Content */}
             {selectedView === 'applyLeave' && !showTaskDistribution && (
@@ -762,6 +766,7 @@ const Dashboard = () => {
             
           </motion.div>
         </div>
+
         
         {/* Footer */}
         <motion.div

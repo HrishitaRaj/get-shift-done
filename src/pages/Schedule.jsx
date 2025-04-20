@@ -11,27 +11,147 @@ import { motion } from "framer-motion";
 
 // Initial schedule data
 const initialTeamSchedule = [
-  {
-    name: "Sarah Johnson",
-    schedule: {
-      Monday: { task: "UI Design", time: "10:00 AM" },
-      Tuesday: { task: "React Review", time: "2:00 PM" },
-      Wednesday: { task: "Dashboard Design", time: "11:00 AM" },
-      Thursday: { task: "Team Meeting", time: "3:00 PM" },
-      Friday: { task: "Code Cleanup", time: "1:00 PM" },
+    {
+      name: "Sarah Johnson",
+      schedule: {
+        Monday: { task: "UI Design", time: "10:00 AM" },
+        Tuesday: { task: "React Review", time: "2:00 PM" },
+        Wednesday: { task: "Dashboard Design", time: "11:00 AM" },
+        Thursday: { task: "Team Meeting", time: "3:00 PM" },
+        Friday: { task: "Code Cleanup", time: "1:00 PM" },
+      },
     },
-  },
-  {
-    name: "Michael Chen",
-    schedule: {
-      Monday: { task: "Backend API", time: "9:00 AM" },
-      Tuesday: { task: "Data Analysis", time: "3:00 PM" },
-      Wednesday: { task: "Bug Fixing", time: "12:00 PM" },
-      Thursday: { task: "Team Meeting", time: "3:00 PM" },
-      Friday: { task: "Task Allocation Review", time: "4:00 PM" },
+    {
+      name: "Michael Chen",
+      schedule: {
+        Monday: { task: "Backend API", time: "9:00 AM" },
+        Tuesday: { task: "Data Analysis", time: "3:00 PM" },
+        Wednesday: { task: "Bug Fixing", time: "12:00 PM" },
+        Thursday: { task: "Team Meeting", time: "3:00 PM" },
+        Friday: { task: "Task Allocation Review", time: "4:00 PM" },
+      },
     },
-  },
-];
+    {
+      name: "Alex Rodriguez",
+      schedule: {
+        Monday: { task: "Data Cleanup", time: "11:00 AM" },
+        Tuesday: { task: "Database Optimization", time: "1:00 PM" },
+        Wednesday: { task: "Report Automation", time: "10:00 AM" },
+        Thursday: { task: "Team Meeting", time: "3:00 PM" },
+        Friday: { task: "Client Dashboard Update", time: "2:00 PM" },
+      },
+    },
+    {
+      name: "Emma Thompson",
+      schedule: {
+        Monday: { task: "User Interviews", time: "9:30 AM" },
+        Tuesday: { task: "Wireframe Draft", time: "11:00 AM" },
+        Wednesday: { task: "UX Review", time: "2:30 PM" },
+        Thursday: { task: "Team Meeting", time: "3:00 PM" },
+        Friday: { task: "Final Mockups", time: "1:30 PM" },
+      },
+    },
+    {
+      name: "Liam Patel",
+      schedule: {
+        Monday: { task: "Server Deployment", time: "10:00 AM" },
+        Tuesday: { task: "CI/CD Setup", time: "11:30 AM" },
+        Wednesday: { task: "Monitoring Alerts", time: "3:00 PM" },
+        Thursday: { task: "Incident Review", time: "2:00 PM" },
+        Friday: { task: "Log Analysis", time: "1:00 PM" },
+      },
+    },
+    {
+      name: "Olivia Park",
+      schedule: {
+        Monday: { task: "Market Research", time: "9:00 AM" },
+        Tuesday: { task: "Campaign Planning", time: "2:00 PM" },
+        Wednesday: { task: "Audience Segmentation", time: "12:00 PM" },
+        Thursday: { task: "Social Media Audit", time: "1:30 PM" },
+        Friday: { task: "Email Strategy", time: "3:00 PM" },
+      },
+    },
+    {
+      name: "Ethan Wright",
+      schedule: {
+        Monday: { task: "Testing New Features", time: "10:30 AM" },
+        Tuesday: { task: "Bug Reproduction", time: "1:00 PM" },
+        Wednesday: { task: "QA Sync", time: "3:30 PM" },
+        Thursday: { task: "Regression Tests", time: "10:00 AM" },
+        Friday: { task: "Test Report Review", time: "2:00 PM" },
+      },
+    },
+    {
+      name: "Ava Kim",
+      schedule: {
+        Monday: { task: "Sprint Planning", time: "11:00 AM" },
+        Tuesday: { task: "Stakeholder Meeting", time: "4:00 PM" },
+        Wednesday: { task: "Roadmap Review", time: "2:00 PM" },
+        Thursday: { task: "Feature Prioritization", time: "12:30 PM" },
+        Friday: { task: "Demo Day Prep", time: "10:00 AM" },
+      },
+    },
+    {
+      name: "Noah Singh",
+      schedule: {
+        Monday: { task: "Security Audit", time: "9:30 AM" },
+        Tuesday: { task: "Firewall Check", time: "11:00 AM" },
+        Wednesday: { task: "Pen Testing", time: "1:00 PM" },
+        Thursday: { task: "Policy Update", time: "3:30 PM" },
+        Friday: { task: "Compliance Report", time: "2:00 PM" },
+      },
+    },
+    {
+      name: "Isabella Garcia",
+      schedule: {
+        Monday: { task: "Content Strategy", time: "10:00 AM" },
+        Tuesday: { task: "SEO Optimization", time: "11:30 AM" },
+        Wednesday: { task: "Blog Writing", time: "1:30 PM" },
+        Thursday: { task: "Web Copy Review", time: "2:30 PM" },
+        Friday: { task: "Newsletter Draft", time: "3:30 PM" },
+      },
+    },
+    {
+      name: "James Lee",
+      schedule: {
+        Monday: { task: "Code Review", time: "11:00 AM" },
+        Tuesday: { task: "Tech Handoff", time: "1:30 PM" },
+        Wednesday: { task: "Architecture Planning", time: "2:00 PM" },
+        Thursday: { task: "Knowledge Sharing", time: "4:00 PM" },
+        Friday: { task: "Refactoring Sprint", time: "12:00 PM" },
+      },
+    },
+    {
+      name: "Mia Brown",
+      schedule: {
+        Monday: { task: "Onboarding Prep", time: "9:00 AM" },
+        Tuesday: { task: "Team Welcome", time: "10:00 AM" },
+        Wednesday: { task: "Mentorship Session", time: "3:00 PM" },
+        Thursday: { task: "Training Doc Review", time: "1:30 PM" },
+        Friday: { task: "Feedback Collection", time: "2:00 PM" },
+      },
+    },
+    {
+      name: "Benjamin Nguyen",
+      schedule: {
+        Monday: { task: "Prototype Testing", time: "10:30 AM" },
+        Tuesday: { task: "Usability Study", time: "2:00 PM" },
+        Wednesday: { task: "UI Polish", time: "12:00 PM" },
+        Thursday: { task: "Microcopy Fixes", time: "3:00 PM" },
+        Friday: { task: "Animation Review", time: "1:00 PM" },
+      },
+    },
+    {
+      name: "Charlotte Davis",
+      schedule: {
+        Monday: { task: "PRD Drafting", time: "9:00 AM" },
+        Tuesday: { task: "Customer Feedback Analysis", time: "11:00 AM" },
+        Wednesday: { task: "Feature Specs", time: "2:00 PM" },
+        Thursday: { task: "Engineering Sync", time: "3:30 PM" },
+        Friday: { task: "OKR Alignment", time: "12:30 PM" },
+      },
+    },
+  ];  
 
 const getTaskColor = (task) => {
   const lower = task.toLowerCase();
