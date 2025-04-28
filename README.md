@@ -1,74 +1,68 @@
-# Getting Started with Create React App
+# 📌About GSD
+Get Shift Done (GSD) is an AI-powered workforce scheduling system that transforms how businesses manage employee shifts, task allocations, and availability. It’s built to ensure operational efficiency, prevent employee burnout, and dynamically adjust to real-time changes, because workforce management must be intelligent, adaptive, and human-friendly.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Whether handling leave requests, task updates, or last-minute absences, GSD ensures your business stays on track without the chaos.
 
-## Available Scripts
+![image](https://github.com/user-attachments/assets/8999719f-a089-4978-b8dc-71e8139a3084)
 
-In the project directory, you can run:
+# ✨Key Features
+**📊 AI-Powered Real-Time Scheduling**
+Automatically generates optimized work schedules while balancing workloads based on business priorities, employee availability, and leave records.
 
-### `npm start`
+**🔄 Dynamic Adjustments**
+Detects last-minute changes and instantly updates schedules to maintain smooth operations without under- or overstaffing.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+**🛡️ Burnout Prevention**
+Fairly distributes shifts to prevent overworking and ensure no employee is underutilized.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+**⚙️ Human-in-the-Loop Flexibility**
+Managers can tweak AI-generated schedules, override decisions, and fine-tune shifts to match on-ground realities.
 
-### `npm test`
+**🧠 Learning & Continuous Improvement**
+GSD learns from previous schedules and feedback, refining its future planning for better efficiency.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+**📣 Instant Notifications & Tracking**
+Employees get real-time updates about their shifts and can track schedules seamlessly.
 
-### `npm run build`
+**📋 Compliance & Policy Adherence**
+Ensures every schedule aligns with organizational policies, business-specific rules, and labor regulations.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# 🎯 Why It Matters
+In today’s fast-paced, people-driven businesses, efficient workforce management isn't a luxury — it's a necessity. Traditional scheduling tools lack adaptability and strain both managers and employees.
+GSD fills that gap with:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+🔹AI-driven decision-making with human oversight.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+🔹Real-time adaptability to operational disruptions.
 
-### `npm run eject`
+🔹Reduced turnover and burnout rates.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+🔹Improved productivity, fairness, and employee satisfaction.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Because when the workforce is happy and operations run smoothly, the business thrives.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+# 🛠️ Tech Stack
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+**Languages:** Python, Node.js
 
-## Learn More
+**AI & ML:** TensorFlow, PyTorch, scikit-learn
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+**Data Handling:** Pandas, NumPy
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+**Databases:** MongoDB, MySQL
 
-### Code Splitting
+**Frontend:** React.js, Plotly Dash, Chart.js
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+**Real-Time & Notifications:** Firebase, Twilio, Slack API
 
-### Analyzing the Bundle Size
+**Chatbot & Voice:** Gemini, Rasa, Google STT, Whisper
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+# 📷 Project Architecture
+Check out the system workflow below to see how it all fits together:
 
-### Making a Progressive Web App
+![gsd-flowchart](https://github.com/user-attachments/assets/8351113a-6875-4a4f-a731-6a63209f2e81)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
+# ⭐ Final Word
+Get Shift Done isn’t just another scheduling app — it’s a smart, learning, flexible workforce management solution built for modern, people-first businesses.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-<<<<<<< HEAD
-=======
-
->>>>>>> 567df9519c25d93b64b8dd567d0bf82d7aa8afcb
